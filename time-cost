@@ -1,0 +1,5 @@
+import time
+time_start = time.time()
+# that-clause
+time_end = time.time()
+print('totally cost:', time_end - time_start)

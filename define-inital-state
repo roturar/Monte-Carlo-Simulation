@@ -1,0 +1,8 @@
+# numpy矩阵计算的数据库
+import numpy as np
+
+
+# 产生二维Ising模型的初始构型
+def init_state(N):
+    state = 2 * np.random.randint(0, 2, (N, N)) - 1  # 产生各个矩阵元素为1或-1的N*N的随机矩阵
+    return state

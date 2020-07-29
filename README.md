@@ -1,0 +1,3 @@
+# Monte-Carlo-Simulation
+Monte Carlo method known as statistical simulation method, is a probabilistic and statistical theory.
+2D Ising simulation via Metropolis to calculate  the energy, capacity，susceptibility……

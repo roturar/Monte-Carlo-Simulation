@@ -1,0 +1,19 @@
+import numpy as np
+
+
+# 判断构型是否发生翻转
+def flipping(grid, beta):
+    N = len(grid)
+    for i in range(N):
+        for j in range(N):
+            a = np.random.randint(0, N)
+            b = np.random.randint(0, N)
+            neighbours = grid[(a + 1) % N][b] + grid[(a - 1)][b] + grid[a][(b + 1) % N] + grid[a][(b - 1)]  # 考虑超出边界所以%N
+            cost = 2 * grid[a][b] * neighbours  # /sum 2sisj=/delta E
+            # 如果能量降低接受翻转
+            if cost < 0:
+                grid[a][b] *= -1
+            # 在0到1产生随机数，如果概率小于exp(-E/(kT))翻转
+            elif np.random.rand() < np.exp((-1.0 * cost / beta)):
+                grid[a][b] *= -1
+    return grid

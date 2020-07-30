@@ -1,0 +1,11 @@
+# 计算构型平均能量
+def calculate_energy(grid):
+    energy = 0
+    N = len(grid)
+    for i in range(N):
+        for j in range(N):
+            S = grid[i][j]
+            E = grid[(i + 1) % N][j] + grid[(i - 1) % N][j] + grid[i][(j + 1) % N] + grid[i][(j - 1) % N]
+            energy += -E * S  # 符号来自哈密顿量 
+    # 最近4个格点
+    return energy/4  

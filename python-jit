@@ -1,0 +1,47 @@
+# JIT是just in time的缩写，也就是即时编译编译器，能够加速程序的运行速度
+import time
+import numpy as np
+# numba是可以将python函数编译为机器代码的JIT编译器，经过numba编译的python代码（仅限数组运算），其运行速度可以接近C或FORTRAN
+from numba import jit  
+# from numba import autojit
+# @autojit  # 能对所有类型的参数进行运算
+
+
+def init_state(N):
+    state = 2 * np.random.randint(0, 2, (N, N)) - 1
+    return state
+
+
+# 即时编译，产生的函数只能对制定类型的参数进行运算
+@jit()
+def flipping(grid, beta):
+    N = len(grid)
+    for i in range(N):
+        for j in range(N):
+            a = np.random.randint(0, N)
+            b = np.random.randint(0, N)
+            neighours = grid[(a + 1) % N][b] + grid[a][(b + 1) % N] + grid[(a - 1)][b] + grid[a][(b - 1)]
+            cost = 2 * grid[a][b] * neighours
+            if cost < 0:
+                grid[a][b] *= -1
+            elif np.random.rand() < np.exp((- 1.0 * cost) / beta):
+                grid[a][b] *= -1
+    return grid
+
+
+# 可同时使用多个@jit
+@jit()
+def calculate_energy(grid):
+    energy = 0
+    N = len(grid)
+    for i in range(N):
+        for j in range(N):
+            S = grid[i][j]
+            E = grid[(i + 1) % N][j] + grid[i][(j + 1) % N] + grid[(i - 1) % N][j] + grid[i][(j - 1) % N]
+            energy += -E * S
+    return energy / 4
+
+
+def calculate_magnetic(grid):
+    mag = np.sum(grid)
+    return mag
